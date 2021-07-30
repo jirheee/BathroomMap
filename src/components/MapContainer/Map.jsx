@@ -10,17 +10,43 @@ const divBtnOpt = {
   zIndex: "10"
 };
 
-const App = () => {
+const Marker = ({ mapX, mapY, map }) => {
+  const { kakao } = window;
+  //FIXME: Got this Icon from https://www.iconfinder.com/icons/2710199/bath_bathroom_lady_room_map_marker_toilet_wash_wc_pointer_icon
+  const imageSrc =
+    "https://cdn0.iconfinder.com/data/icons/map-markers-2-1/512/xxx023-1024.png";
+  const imageSize = new kakao.maps.Size(54, 59);
+
+  const marker = new kakao.maps.Marker({
+    map,
+    position: new kakao.maps.LatLng(mapY, mapX),
+    image: new kakao.maps.MarkerImage(imageSrc, imageSize)
+  });
+
+  const iwContent = '<div style="padding:5px;">Hello World!</div>';
+
+  const infowindow = new kakao.maps.InfoWindow({
+    content: iwContent
+  });
+
+  kakao.maps.event.addListener(marker, "mouseover", function () {
+    infowindow.open(map, marker);
+  });
+
+  kakao.maps.event.addListener(marker, "mouseout", function () {
+    infowindow.close();
+  });
+
+  return marker;
+};
+
+const Map = () => {
   const [map, setMap] = useState(null);
   const [markerArr, setMarkerArr] = useState([]);
   const [locationArr, setLocationArr] = useState([]);
 
   const getLocation = async id => {
-    setLocationArr([
-      { mapX: 127.053617, mapY: 37.506502 },
-      { mapX: 127.053717, mapY: 37.506502 },
-      { mapX: 127.053517, mapY: 37.506402 }
-    ]);
+    setLocationArr([{ mapX: 127.053617, mapY: 37.506502 }]);
   };
 
   const createMap = () => {
@@ -44,15 +70,10 @@ const App = () => {
   };
 
   const createMarker = () => {
-    const { kakao } = window;
     const tempArr = [];
     locationArr.forEach(e => {
-      tempArr.push(
-        new kakao.maps.Marker({
-          map: map,
-          position: new kakao.maps.LatLng(e.mapY, e.mapX)
-        })
-      );
+      const marker = Marker({ mapX: e.mapX, mapY: e.mapY, map });
+      tempArr.push(marker);
     });
     setMarkerArr(tempArr);
   };
@@ -76,15 +97,16 @@ const App = () => {
     <div className="App">
       <Button
         onClick={() => getLocation(2)}
-        style={{ ...divBtnOpt, backgroundColor: "red", left: "100px" }}
-      />
-      <Button
-        onClick={deleteMarker}
-        style={{ ...divBtnOpt, backgroundColor: "blue", left: "150px" }}
-      />
+        style={{ ...divBtnOpt, left: "100px" }}
+      >
+        C
+      </Button>
+      <Button onClick={deleteMarker} style={{ ...divBtnOpt, left: "150px" }}>
+        R
+      </Button>
       <div id="map" style={{ width: "100vw", height: "100vh" }}></div>
     </div>
   );
 };
 
-export default App;
+export default Map;
