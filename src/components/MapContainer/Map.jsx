@@ -101,7 +101,11 @@ const Map = () => {
       >
         C
       </Button>
-      <Button onClick={deleteMarker} style={{ ...divBtnOpt, left: "150px" }}>
+      <Button
+        variant="danger"
+        onClick={deleteMarker}
+        style={{ ...divBtnOpt, left: "150px" }}
+      >
         R
       </Button>
       <div id="map" style={{ width: "100vw", height: "100vh" }}></div>

@@ -13,7 +13,7 @@ const SearchBox = props => {
   const { width, _ } = useWindowSize();
   const [maxWidth, setMaxWidth] = useState(null);
 
-  useEffect(() => setMaxWidth(props.maxWidth));
+  useEffect(() => setMaxWidth(props.maxWidth), [props]);
 
   return (
     <>
