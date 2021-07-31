@@ -1,9 +1,8 @@
 import { useState } from "react";
-
 import { Form, Button, Modal } from "react-bootstrap";
 import "./LoginModal.css";
 
-export function LoginModal() {
+export const LoginModal = () => {
   const [visibility, setVisibility] = useState("visible");
 
   const handleCloseBtnClicked = () => {
@@ -53,4 +52,4 @@ export function LoginModal() {
       </Modal.Dialog>
     </div>
   );
-}
+};
